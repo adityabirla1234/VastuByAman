@@ -2729,9 +2729,10 @@ export default function App() {
           property="og:description"
           content="Transform your home, office or business with expert Vastu guidance. 5,000+ properties analysed across India. Book your consultation today."
         />
-        <meta property="og:image" content="https://ik.imagekit.io/chedcztb6/VASTUBYAMAN/file_0000000081907206b81e6a97425fa241.png?updatedAt=1780645974051&ik-s=2db2e9e0b00f92011b1b00993e252a0dd666f37e" />
+        <meta property="og:image" content="https://vastubyaman.vercel.app//og-image.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/png" />
         <meta property="og:locale" content="en_IN" />
 
         {/* ── Twitter / X Card ── */}
@@ -2741,7 +2742,7 @@ export default function App() {
           name="twitter:description"
           content="Transform your home, office or business with expert Vastu guidance. 5,000+ properties analysed across India."
         />
-        <meta name="twitter:image" content="https://ik.imagekit.io/chedcztb6/VASTUBYAMAN/file_0000000081907206b81e6a97425fa241.png?updatedAt=1780645974051&ik-s=2db2e9e0b00f92011b1b00993e252a0dd666f37e" />
+        <meta name="twitter:image" content="https://vastubyaman.vercel.app//og-image.png" />
 
         {/* ── Geo / Local SEO ── */}
         <meta name="geo.region" content="IN-MP" />
