@@ -2729,7 +2729,7 @@ export default function App() {
           property="og:description"
           content="Transform your home, office or business with expert Vastu guidance. 5,000+ properties analysed across India. Book your consultation today."
         />
-        <meta property="og:image" content="https://vastubyaman.vercel.app/og-image.png" />
+        <meta property="og:image" content="https://panditamanbhatore.com/og-image.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:type" content="image/png" />
@@ -2742,7 +2742,7 @@ export default function App() {
           name="twitter:description"
           content="Transform your home, office or business with expert Vastu guidance. 5,000+ properties analysed across India."
         />
-        <meta name="twitter:image" content="https://vastubyaman.vercel.app/og-image.png" />
+        <meta name="twitter:image" content="https://panditamanbhatore.com/og-image.png" />
 
         {/* ── Geo / Local SEO ── */}
         <meta name="geo.region" content="IN-MP" />
