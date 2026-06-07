@@ -1078,26 +1078,23 @@ export function useKundaliModal() {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   DEFAULT EXPORT — Demo wrapper
+   DEFAULT EXPORT — Standalone routed page at /kundali-check
+   Renders the full KundaliModal UI directly as a page (no overlay),
+   with a back-to-home link in place of the close button.
 ═══════════════════════════════════════════════════════════ */
-export default function KundaliCheckDemo() {
-  const { open, openModal, closeModal } = useKundaliModal();
+export default function KundaliCheckPage() {
+  // On this standalone route the modal is always open.
+  // We bypass the hash-based hook — calling openModal() would append
+  // "#kundali" to "/kundali-check", producing "/kundali-check#kundali".
+  const handleClose = () => {
+    window.location.href = "/";
+  };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0f0d09", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 24, fontFamily: "'DM Sans',system-ui,sans-serif", padding: 24 }}>
-      <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, letterSpacing: "0.1em", textTransform: "uppercase" }}>Demo — click to open Kundali Check modal</p>
-      <button
-        onClick={openModal}
-        style={{ position: "relative", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 10, padding: "14px 32px", borderRadius: 9999, cursor: "pointer", fontFamily: "'DM Sans',system-ui,sans-serif", fontSize: 16, fontWeight: 700, color: "#fff", border: "none", background: "transparent", transition: "transform 0.3s ease" }}
-        onMouseEnter={e => e.currentTarget.style.transform = "scale(1.05)"}
-        onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
-      >
-        <span style={{ position: "absolute", inset: 0, borderRadius: 9999, backdropFilter: 'url("#kc-glass-filter") blur(0px)', WebkitBackdropFilter: 'url("#kc-glass-filter") blur(0px)', zIndex: 0 }} />
-        <span style={{ position: "absolute", inset: 0, borderRadius: 9999, boxShadow: "0 0 6px rgba(0,0,0,0.03),0 2px 6px rgba(0,0,0,0.08),inset 1px 1px 1px -0.5px rgba(255,255,255,0.35),inset -1px -1px 1px -0.5px rgba(255,255,255,0.25),inset 0 0 8px 6px rgba(255,255,255,0.07),0 0 16px rgba(201,168,76,0.25)", background: "linear-gradient(135deg, rgba(201,168,76,0.22) 0%, rgba(201,168,76,0.08) 50%, rgba(255,255,255,0.06) 100%)", border: "1px solid rgba(201,168,76,0.45)", zIndex: 1 }} />
-        <span style={{ position: "relative", zIndex: 3 }}>🪐 Check Kundali</span>
-      </button>
-      <KundaliModal open={open} onClose={closeModal} />
-    </div>
+    <>
+      <KundaliStyles />
+      <KundaliModal open={true} onClose={handleClose} />
+    </>
   );
 }
 
