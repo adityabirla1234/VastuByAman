@@ -2713,23 +2713,23 @@ export default function App() {
         <meta name="keywords" content="vastu consultant indore, vastu shastra expert india, pandit aman bhatore, online vastu consultation, home vastu correction, vastu for business, vedic astrology" />
         <meta name="author" content="Pandit Aman Bhatore" />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://panditamanbhatore.com/" />
+        <link rel="canonical" href="https://pamanbhatore.com/" />
 
         {/* ── hreflang: serves Hindi + English content ── */}
-        <link rel="alternate" hrefLang="en-in" href="https://panditamanbhatore.com/" />
-        <link rel="alternate" hrefLang="hi-in" href="https://panditamanbhatore.com/" />
-        <link rel="alternate" hrefLang="x-default" href="https://panditamanbhatore.com/" />
+        <link rel="alternate" hrefLang="en-in" href="https://pamanbhatore.com/" />
+        <link rel="alternate" hrefLang="hi-in" href="https://pamanbhatore.com/" />
+        <link rel="alternate" hrefLang="x-default" href="https://pamanbhatore.com/" />
 
         {/* ── Open Graph (Facebook, WhatsApp, LinkedIn) ── */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://panditamanbhatore.com/" />
+        <meta property="og:url" content="https://pamanbhatore.com/" />
         <meta property="og:site_name" content="Pandit Aman Bhatore" />
         <meta property="og:title" content="Pandit Aman Bhatore | Expert Vastu Consultant in Indore, India" />
         <meta
           property="og:description"
           content="Transform your home, office or business with expert Vastu guidance. 5,000+ properties analysed across India. Book your consultation today."
         />
-        <meta property="og:image" content="https://panditamanbhatore.com/og-image.png" />
+        <meta property="og:image" content="https://pamanbhatore.com/og-image.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:type" content="image/png" />
@@ -2742,7 +2742,7 @@ export default function App() {
           name="twitter:description"
           content="Transform your home, office or business with expert Vastu guidance. 5,000+ properties analysed across India."
         />
-        <meta name="twitter:image" content="https://panditamanbhatore.com/og-image.png" />
+        <meta name="twitter:image" content="https://pamanbhatore.com/og-image.png" />
 
         {/* ── Geo / Local SEO ── */}
         <meta name="geo.region" content="IN-MP" />
@@ -2765,7 +2765,7 @@ export default function App() {
             "@type": ["LocalBusiness", "ProfessionalService"],
             "name": "Pandit Aman Bhatore — Vastu Shastra Consultant",
             "description": "Expert Vastu Shastra consultant offering residential, commercial & industrial consultations across India.",
-            "url": "https://panditamanbhatore.com",
+            "url": "https://pamanbhatore.com",
             "telephone": "+91-7049001004",
             "priceRange": "₹₹",
             "areaServed": "India",
@@ -2900,7 +2900,7 @@ export default function App() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://panditamanbhatore.com/"
+                "item": "https://pamanbhatore.com/"
               }
             ]
           }
