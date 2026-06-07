@@ -1,8 +1,8 @@
-import { ConsultationModal, useConsultationModal } from "./ConsultationBooking";
 import { KundaliModal, useKundaliModal } from "./KundaliCheck";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { HelmetProvider, Helmet } from "react-helmet-async";
+import { Link, useNavigate } from "react-router-dom";
 
 /* ═══════════════════════════════════════════════
    SPARKLES TEXT
@@ -934,7 +934,7 @@ function GlobalStyles() {
    (framer-motion behaviour replicated with CSS
    transitions + React state; no extra deps needed)
 ═══════════════════════════════════════════════ */
-function NavPillLinks({ links, openKundali }) {
+function NavPillLinks({ links }) {
   const [cursor, setCursor] = useState({ left: 0, width: 0, opacity: 0 });
   const refs = useRef({});
 
@@ -949,7 +949,7 @@ function NavPillLinks({ links, openKundali }) {
     setCursor((prev) => ({ ...prev, opacity: 0 }));
   }, []);
 
-  /* Shared text style for both <a> and <button> nav items */
+  /* Shared text style for both <a> and <Link> nav items */
   const navItemStyle = {
     display: "block",
     padding: "5px 14px",
@@ -963,6 +963,9 @@ function NavPillLinks({ links, openKundali }) {
     whiteSpace: "nowrap",
     borderRadius: 9999,
   };
+
+  /* Links that are real React Router routes (absolute paths starting with /) */
+  const isRouterLink = (href) => href.startsWith("/");
 
   return (
     <ul
@@ -1005,13 +1008,10 @@ function NavPillLinks({ links, openKundali }) {
           onMouseEnter={() => handleEnter(l.href)}
           style={{ position: "relative", zIndex: 1 }}
         >
-          {l.label === "Kundali Check" ? (
-            <button
-              onClick={openKundali}
-              style={{ ...navItemStyle, background: "none", border: "none", cursor: "pointer" }}
-            >
+          {isRouterLink(l.href) ? (
+            <Link to={l.href} style={navItemStyle}>
               {l.label}
-            </button>
+            </Link>
           ) : (
             <a href={l.href} style={navItemStyle}>
               {l.label}
@@ -1026,7 +1026,7 @@ function NavPillLinks({ links, openKundali }) {
 /* ═══════════════════════════════════════════════
    NAVBAR
 ═══════════════════════════════════════════════ */
-function Navbar({ openBooking, openKundali }) {
+function Navbar({ openBooking }) {
   const [atTop, setAtTop] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -1053,13 +1053,13 @@ function Navbar({ openBooking, openKundali }) {
   };
 
   const links = [
-    { label: "About",          href: "#about" },
-    { label: "Testimonials",   href: "#testimonials" },
-    { label: "FAQ",            href: "#faq" },
-    { label: "Video Guidance", href: "/video-guidance" },
-    { label: "Gallery",        href: "#gallery" },
-    { label: "Contact",        href: "#contact" },
-    { label: "Kundali Check",   href: "#kundali" },
+    { label: "About",                href: "#about" },
+    { label: "Testimonials",         href: "#testimonials" },
+    { label: "FAQ",                  href: "#faq" },
+    { label: "Video Guidance",       href: "/video-guidance" },
+    { label: "Gallery",              href: "#gallery" },
+    { label: "Contact",              href: "#contact" },
+    { label: "Kundali Check",        href: "/kundali-check" },
   ];
 
   return (
@@ -1104,7 +1104,7 @@ function Navbar({ openBooking, openKundali }) {
 
         {/* Animated pill nav — replaces plain link list */}
         <div className="nav-links" style={{ alignItems: "center", gap: 12 }}>
-          <NavPillLinks links={links} openKundali={openKundali} />
+          <NavPillLinks links={links} />
           <LiquidButton onClick={openBooking} style={{ fontSize: 13, padding: "6px 18px", fontWeight: 700 }}>
             Book Now
           </LiquidButton>
@@ -1125,23 +1125,22 @@ function Navbar({ openBooking, openKundali }) {
           </svg>
         </button>
         {links.map((l) =>
-          l.label === "Kundali Check" ? (
-            <button
-              key="kundali"
-              onClick={() => { closeMenu(); openKundali(); }}
+          l.href.startsWith("/") ? (
+            <Link
+              key={l.href}
+              to={l.href}
+              onClick={closeMenu}
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: 28,
                 fontWeight: 600,
                 color: "#fff",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
+                textDecoration: "none",
                 letterSpacing: "-0.28px",
               }}
             >
-              Kundali Check
-            </button>
+              {l.label}
+            </Link>
           ) : (
             <a key={l.href} href={l.href} onClick={closeMenu}>{l.label}</a>
           )
@@ -2332,18 +2331,9 @@ function useRefreshBehavior() {
     /* Hand scroll control entirely to us */
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
-    // If there's a #consultation hash, the modal will open —
-    // don't fight it with scroll restoration; stay at top.
-    const hasConsultationHash = window.location.hash.startsWith("#consultation");
-
     const isMobile = window.innerWidth <= 768;
 
-    if (hasConsultationHash) {
-      // Modal opening — scroll to top so the overlay covers the page cleanly
-      document.documentElement.style.scrollBehavior = "auto";
-      window.scrollTo(0, 0);
-      requestAnimationFrame(() => { document.documentElement.style.scrollBehavior = ""; });
-    } else if (isMobile) {
+    if (isMobile) {
       /* Mobile / tablet — always return to top */
       document.documentElement.style.scrollBehavior = "auto";
       window.scrollTo(0, 0);
@@ -2353,9 +2343,6 @@ function useRefreshBehavior() {
       const saved = sessionStorage.getItem("scrollY");
       if (saved !== null) {
         const y = parseInt(saved, 10);
-        /* Validate before use: reject NaN, Infinity, and out-of-range values.
-           A tampered sessionStorage entry (e.g. from a browser extension)
-           could otherwise supply an unexpected scroll position. */
         if (Number.isFinite(y) && y >= 0 && y <= 1_000_000) {
           document.documentElement.style.scrollBehavior = "auto";
           window.scrollTo(0, y);
@@ -2365,9 +2352,9 @@ function useRefreshBehavior() {
       sessionStorage.removeItem("scrollY");
     }
 
-    /* Save position just before the page unloads (only on desktop, only without modal) */
+    /* Save position just before the page unloads */
     const saveScroll = () => {
-      if (window.innerWidth > 768 && !window.location.hash.startsWith("#consultation")) {
+      if (window.innerWidth > 768) {
         sessionStorage.setItem("scrollY", String(window.scrollY));
       }
     };
@@ -2675,27 +2662,22 @@ export default function App() {
   useCounter();
   useRefreshBehavior();
 
-  // Skip preloader when navigating from another page via hash links
-  const [loading, setLoading] = useState(() => {
-    const hash = window.location.hash;
-    const skipHashes = ["#consultation", "#about", "#gallery", "#contact"];
-    return !skipHashes.some(h => hash.startsWith(h));
-  });
+  const [loading, setLoading] = useState(true);
   const handlePreloaderDone = useCallback(() => setLoading(false), []);
 
-  const { open: bookingOpen, openModal, closeModal } = useConsultationModal();
-  const { open: kundaliOpen, openModal: openKundali, closeModal: closeKundali } = useKundaliModal();
+  const navigate = useNavigate();
+  const openModal = useCallback(() => navigate("/consultation-booking"), [navigate]);
 
   useEffect(() => {
     document.body.classList.add("ready");
   }, []);
 
-  // Open consultation modal when redirected with ?book=1
+  // Navigate to consultation page when redirected with ?book=1
   useEffect(() => {
     if (loading) return;
     const params = new URLSearchParams(window.location.search);
     if (params.get("book") === "1") {
-      openModal();
+      navigate("/consultation-booking");
       window.history.replaceState({}, "", window.location.pathname);
     }
   }, [loading]);
@@ -2911,19 +2893,15 @@ export default function App() {
       <GlobalStyles />
       <GlassFilter />
       {loading && <Preloader onComplete={handlePreloaderDone} />}
-      <Navbar openBooking={openModal} openKundali={openKundali} />        {/* ← pass openModal */}
-      <Hero openBooking={openModal} />          {/* ← pass openModal */}
-      <About openBooking={openModal} /> 
+      <Navbar openBooking={openModal} />
+      <Hero openBooking={openModal} />
+      <About openBooking={openModal} />
       <WhyUs />
       <Testimonials />
       <Gallery />
       <FAQ />
-      <CTA openBooking={openModal} />           {/* ← pass openModal */}
+      <CTA openBooking={openModal} />
       <Footer />
-
-      {/* ─── ADD THIS ─── */}
-      <ConsultationModal open={bookingOpen} onClose={closeModal} />
-      <KundaliModal open={kundaliOpen} onClose={closeKundali} />
     </div>
     </HelmetProvider>
   );
