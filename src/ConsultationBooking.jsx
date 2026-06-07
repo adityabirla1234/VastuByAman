@@ -1940,94 +1940,22 @@ export function useConsultationModal() {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   DEFAULT EXPORT — Demo wrapper (remove in production)
+   DEFAULT EXPORT — Standalone routed page at /consultation-booking
+   Renders the full ConsultationModal UI directly as a page.
+   On close, navigates back to homepage.
 ═══════════════════════════════════════════════════════════ */
-export default function ConsultationBookingDemo() {
-  const { open, openModal, closeModal } = useConsultationModal();
+export default function ConsultationBookingPage() {
+  // On this standalone route the modal is always open.
+  // We bypass the hash-based hook — calling openModal() would append
+  // "#consultation" to "/consultation-booking" on mount.
+  const handleClose = () => {
+    window.location.href = "/";
+  };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0f0d09", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 24, fontFamily: "'DM Sans',system-ui,sans-serif", padding: 24 }}>
-      {/* Same SVG filter used by LiquidButton in PanditAmanBhatore */}
-      <svg style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }} aria-hidden="true">
-        <defs>
-          <filter id="liquid-glass-filter" x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
-            <feTurbulence type="fractalNoise" baseFrequency="0.05 0.05" numOctaves="1" seed="1" result="turbulence" />
-            <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
-            <feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="70" xChannelSelector="R" yChannelSelector="B" result="displaced" />
-            <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur" />
-            <feComposite in="finalBlur" in2="finalBlur" operator="over" />
-          </filter>
-        </defs>
-      </svg>
-
-      <p style={{ color: "rgba(26,18,8,0.42)", fontSize: 13, letterSpacing: "0.1em", textTransform: "uppercase" }}>Demo — click any button to open the modal</p>
-      <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
-        {["Book Now", "Book a Consultation", "Consult Now"].map((label) => (
-          <button
-            key={label}
-            onClick={openModal}
-            style={{
-              position: "relative",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 10,
-              padding: "14px 32px",
-              borderRadius: 9999,
-              cursor: "pointer",
-              fontFamily: "'DM Sans',system-ui,sans-serif",
-              fontSize: 16,
-              fontWeight: 700,
-              letterSpacing: "-0.01em",
-              color: "#fff",
-              border: "none",
-              background: "transparent",
-              transition: "transform 0.3s ease",
-            }}
-            onMouseEnter={e => e.currentTarget.style.transform = "scale(1.05)"}
-            onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
-            onMouseDown={e => e.currentTarget.style.transform = "scale(0.97)"}
-            onMouseUp={e => e.currentTarget.style.transform = "scale(1.05)"}
-          >
-            {/* Glass morphism backdrop */}
-            <span aria-hidden="true" style={{
-              position: "absolute", inset: 0, borderRadius: 9999,
-              backdropFilter: 'url("#liquid-glass-filter") blur(0px)',
-              WebkitBackdropFilter: 'url("#liquid-glass-filter") blur(0px)',
-              zIndex: 0,
-            }} />
-            {/* Liquid glass shell */}
-            <span aria-hidden="true" style={{
-              position: "absolute", inset: 0, borderRadius: 9999,
-              boxShadow: [
-                "0 0 6px rgba(0,0,0,0.03)",
-                "0 2px 6px rgba(0,0,0,0.08)",
-                "inset 3px 3px 0.5px -3px rgba(255,255,255,0.18)",
-                "inset -3px -3px 0.5px -3px rgba(255,255,255,0.12)",
-                "inset 1px 1px 1px -0.5px rgba(255,255,255,0.35)",
-                "inset -1px -1px 1px -0.5px rgba(255,255,255,0.25)",
-                "inset 0 0 8px 6px rgba(255,255,255,0.07)",
-                "inset 0 0 2px 2px rgba(255,255,255,0.04)",
-                "0 0 16px rgba(201,168,76,0.25)",
-              ].join(","),
-              background: "linear-gradient(135deg, rgba(201,168,76,0.22) 0%, rgba(201,168,76,0.08) 50%, rgba(255,255,255,0.06) 100%)",
-              border: "1px solid rgba(201,168,76,0.45)",
-              zIndex: 1,
-            }} />
-            {/* Top glare streak */}
-            <span aria-hidden="true" style={{
-              position: "absolute", top: 2, left: "15%", right: "15%",
-              height: 1, borderRadius: 9999,
-              background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent)",
-              zIndex: 2,
-            }} />
-            {/* Label */}
-            <span style={{ position: "relative", zIndex: 3 }}>{label}</span>
-          </button>
-        ))}
-      </div>
-
-      <ConsultationModal open={open} onClose={closeModal} />
-    </div>
+    <>
+      <BookingStyles />
+      <ConsultationModal open={true} onClose={handleClose} />
+    </>
   );
 }
