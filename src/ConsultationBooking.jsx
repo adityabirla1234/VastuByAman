@@ -1701,7 +1701,7 @@ export function ConsultationModal({ open, onClose }) {
       });
       payload.append("consultationType", consultType);
 
-      const response = await fetch("https://vastubyaman-backend-1.onrender.com", {
+      const response = await fetch("https://vastubyaman-backend-1.onrender.com/book-consultation", {
         method: "POST",
         signal: controller.signal,
         headers: {
