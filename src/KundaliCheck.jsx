@@ -876,7 +876,7 @@ export function KundaliModal({ open, onClose }) {
     setIsSubmitting(true);
     setSubmitError(null);
     try {
-      const res = await fetch("http://localhost:8081/api/kundali-check", {
+      const res = await fetch("https://vastubyaman-backend-1.onrender.com/kundali-check", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
